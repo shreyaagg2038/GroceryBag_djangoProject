@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View List</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+        <style> @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+            body {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 300;
+                background-color: beige;
+            }
+            
+            h1, h2, h3, h4, h5 {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 700;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <!-- top -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>View Grocery List</h1>
+                    {% if user.is_authenticated %}
+                    <small><a href="{% url 'add_item' %}">Add Item </a></small>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-6 float-right">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <!-- Date Filtering-->
+                            <form action = "" method = "POST" style ="display:flex;">
+                                {% csrf_token %}
+                                {% if current_date %}
+                                <input type="date" name="Filter_Date" value = {{current_date}} class="form-control">
+                                {% else %} 
+                                <input type="date" name="Filter_Date" class="form-control">
+                                {% endif %}
+                                    <button class="btn btn-danger" type="submit"style="display:block">Filter </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // top -->
+            <!-- Grocery Cards -->
+            <div class="row mt-4">
+                <!--- -->
+                <!-- Loop This -->
+                {% for i in item_list %}
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">{{i.item_name}}</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">{{i.item_quantity}}</h6>
+                          <p class="text-success">{{i.item_status}}</p>
+                          <p class="card-title">{{i.item_date}}</p>
+                          {% if i.item_user == request.user %}
+                          <small><a href="{% url 'updateitem' i.pk  %}">Update</a></small>
+                          <small><a href="{% url 'deleteitem' i.pk  %}">Delete</a></small>
+                          {% endif %}
+                        </div>
+                      </div>
+                </div>
+                {% endfor %}
+                <!-- // Loop -->
+
+            </div>
+        </div>
+    </body>
+</html>
+{% endblock %}

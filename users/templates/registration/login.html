@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title> Login page</title>
+    </head>
+<style>
+    .container{
+        padding: 35px;
+        padding-left: 25%;
+        padding-right: 35%;
+    }
+</style>
+<body>
+<div class="container">
+    <h2>Login</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" class="form-control" placeholder="Username"></p>
+        <p><input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control" placeholder="Password"></p>
+        <button class="btn btn-secondary">Login</button>
+    </form>
+  
+</div>
+</body>
+</html>
+{% endblock %}
